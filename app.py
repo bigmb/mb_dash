@@ -19,4 +19,4 @@ app.layout = html.Div([
 ], className="col-8 mx-auto")
 
 if __name__ == '__main__':
-	app.run(debug=True)
+    app.run_server(mode='inline', port=8928,host='0.0.0.0')
