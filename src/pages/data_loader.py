@@ -10,13 +10,21 @@ columns = ['PCA','TSNE','UMAP']
 layout = html.Div([
     dcc.Input(id='file_path', type='text', placeholder='Enter the file path'),
     html.Br(),
+    html.Br(),
     dcc.Dropdown(id="dropdown1", options=columns, value="PCA", clearable=False),
+    html.Br(),
     html.Br(),
     dcc.Input(id='taxcodes', type='text', placeholder='Enter the taxcodes separated by comma'),
     html.Br(),
-    dcc.Input(id='taxcode_column_name', type='text', placeholder='Enter the taxcodes separated by comma'),
     html.Br(),
-    dcc.Input(id='file_save', type='text', placeholder='Enter the file save name'),
+    dcc.Input(id='emb_column_name', type='text', placeholder='Enter the embedding column name'),
+    html.Br(),
+    html.Br(),
+    dcc.Input(id='taxcode_column_name', type='text', placeholder='Enter the taxcodes column name'),
+    html.Br(),
+    html.Br(),
+    dcc.Input(id='file_save', type='text', placeholder='Enter the file save name with .csv extension'),
+    html.Br(),
     html.Br(),
     html.Button('Run Selection', id='run-button'),
     html.Div(id='output-div'),
@@ -29,9 +37,10 @@ layout = html.Div([
     [State('file_path', 'value'),
     State('dropdown1', 'value'),
     State('taxcodes', 'value'),
+    State('emb_column_name', 'value'),
     State('taxcode_column_name', 'value'),
     State('file_save', 'value')])
-def run_function(n_clicks, file_path, dropdown1, taxcodes,taxcode_column_name,file_save):
+def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcode_column_name,file_save):
     if n_clicks is None:
         return "Click the 'Run' button after making selections."
 
@@ -46,4 +55,5 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,taxcode_column_name,fi
     t1 = t1.reset_index(drop=True)
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
+    
     t1.to_csv(file_save,index=False)
