@@ -3,7 +3,7 @@ from dash import dcc, html, callback
 from dash.dependencies import Input, Output, State
 import pandas as pd
 
-dash.register_page(__name__, path='data_load', name="Loading Dataset")
+dash.register_page(__name__, path='/data_load', name="Loading Dataset")
 
 layout = html.Div([
     dcc.Input(id='file_path', type='text', placeholder='Enter the file path'),

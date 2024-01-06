@@ -7,7 +7,7 @@ import plotly.express as px
 from dash.dependencies import Input, Output,State
 
 
-dash.register_page(__name__, path='profiler', name="Dataset Profiler")
+dash.register_page(__name__, path='/profiler', name="Dataset Profiler")
 
 #def create_distribution(col_name="Age"):
 #    return px.histogram(data_frame=None, x=col_name, height=600)
