@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup,find_namespace_packages
-from mb_dash.version import version
+from version import version
 
 setup(
     name="mb_dash",

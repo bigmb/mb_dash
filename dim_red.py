@@ -5,6 +5,7 @@ from mb import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from typing import Optional
+import numpy as np
 
 __all__ = ['get_emb']
 
