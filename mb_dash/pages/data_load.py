@@ -10,9 +10,10 @@ layout = html.Div([
     dcc.Dropdown(
         id='dropdown1',
         options=[
-            {'label ': 'PCA', 'value': 'opt1'},
-            {'label': 'TSNE', 'value': 'opt2'},
-            {'label': 'UMAP', 'value': 'opt3'},            
+            {'label ': ' ', 'value': 'opt1'},
+            {'label ': 'PCA', 'value': 'opt2'},
+            {'label': 'TSNE', 'value': 'opt3'},
+            {'label': 'UMAP', 'value': 'opt4'},            
         ],
         multi=True,
         value=[],
@@ -37,8 +38,8 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes):
         return "Please select at least one option or enter a string."
 
     # Run your custom function using the selected values and string input
-    result += f"File Path: {file_path}"
-    result = f"Dropdown Selection: {', '.join(dropdown1)}<br>"
+    result = f"File Path: {file_path}"
+    result += f"Dropdown Selection: {', '.join(dropdown1)}<br>"
     result += f"Tacodes: {list(i.strip() for i in taxcodes.split(','))}"
 
     return result
