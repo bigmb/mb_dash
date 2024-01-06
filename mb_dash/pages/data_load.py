@@ -5,20 +5,12 @@ import pandas as pd
 
 dash.register_page(__name__, path='/data_load', name="Loading Dataset")
 
+columns = ['PCA','TSNE','UMAP']
+
 layout = html.Div([
     dcc.Input(id='file_path', type='text', placeholder='Enter the file path'),
     html.Br(),
-    dcc.Dropdown(
-        id='dropdown1',
-        options=[
-            {'label ': '', 'value': 'opt1'},
-            {'label ': 'PCA', 'value': 'opt2'},
-            {'label': 'TSNE', 'value': 'opt3'},
-            {'label': 'UMAP', 'value': 'opt4'},            
-        ],
-        multi=False,
-        value=[],
-    ),
+    dcc.Dropdown(id="dropdown1", options=columns, value="PCA", clearable=False),
     html.Br(),
     dcc.Input(id='taxcodes', type='text', placeholder='Enter the taxcodes separated by comma'),
     html.Br(),
@@ -53,4 +45,5 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,taxcode_column_name,fi
     t1 = t1.drop_duplicates()
     t1 = t1.reset_index(drop=True)
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
+    t1 = t1[t1[taxcode_column_name] == True]
     t1.to_csv(file_save,index=False)
