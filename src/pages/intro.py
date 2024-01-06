@@ -1,7 +1,7 @@
 import dash
 from dash import html
 
-dash.register_page(__name__, path='/', name="Use Guide")
+dash.register_page(__name__, path='/intro', name="Use Guide")
 
 layout = html.Div(children=[
     html.Div(children=[
