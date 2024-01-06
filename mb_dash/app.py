@@ -6,7 +6,7 @@ px.defaults.template = "ggplot2"
 
 external_css = ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css", ]
 
-app = Dash(__name__, pages_folder='pages', use_pages=False, external_stylesheets=external_css)
+app = Dash(__name__, pages_folder='pages', use_pages=True, external_stylesheets=external_css)
 
 app.layout = html.Div([
 	html.Br(),
@@ -19,4 +19,4 @@ app.layout = html.Div([
 ], className="col-8 mx-auto")
 
 if __name__ == '__main__':
-    app.run_server(port=8930,host='0.0.0.0')
+    app.run_server(port=8930,host='0.0.0.0',debug=True)
