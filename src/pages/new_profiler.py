@@ -18,7 +18,7 @@ layout = html.Div(children=[
     #dcc.Dropdown(id="dist_column_profiler", value="Column", clearable=False),
     dcc.Dropdown(id="data_table_new", value="Column", clearable=False),
     dcc.Graph(id="histogram_new"),
-    #dcc.Store(id='loaded-dataset-store', storage_type='memory'),
+    dcc.Store(id='loaded-dataset-store_new', storage_type='memory'),
     dash_table.DataTable(
         id='data_table_dataset_new',
         data=[],  # Use the stored dataset
