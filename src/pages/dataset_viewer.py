@@ -12,9 +12,11 @@ layout = html.Div(children=[
     html.Br(),
     dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path'),
     html.Button('Load File', id='execute_dataset', n_clicks=0),
+    dcc.Store(id='loaded-dataset-store', storage_type='memory'),
     dash_table.DataTable(
         id='data_table_dataset',
-        data=load_db_dataset.to_dict('records'),
+        data=[],  # Use the stored dataset
+        #data=load_db_dataset.to_dict('records'),
         #columns=[{'name': col, 'id': col} for col in load_db_dataset.columns],
         columns = [],
         page_size=20,
@@ -24,43 +26,51 @@ layout = html.Div(children=[
 ])
 
 @callback([Output('data_table_dataset', 'data'),
-           Output('data_table_dataset', 'columns')],
+           Output('data_table_dataset', 'columns'),
+           Output('loaded-dataset-store', 'data')],
           [Input('execute_dataset', 'n_clicks')],
-          [State('file_path_dataset_viewer', 'value')])
-def update_data_table(n_clicks, file_path_dataset_viewer):
+          [State('file_path_dataset_viewer', 'value'),
+           State('loaded-dataset-store', 'data')])
+def update_data_table(n_clicks, file_path_dataset_viewer, loaded_dataset):
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
-            global load_db_dataset
+            # Load data from the specified file path
             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
             print('Loaded dataset')
             
             # Get updated columns based on the loaded dataset
             updated_columns = [{'name': col, 'id': col} for col in load_db_dataset.columns]
             
-            # Return data and updated columns
-            return load_db_dataset.to_dict('records') if load_db_dataset is not None else [], updated_columns
+            # Return data, updated columns, and store the loaded dataset
+            return load_db_dataset.to_dict('records') if load_db_dataset is not None else [], updated_columns, load_db_dataset.to_dict('records')
         except Exception as e:
             print(f"Error loading data: {e}")
     
-    # Return empty data and columns if no file path is provided or button not clicked
+    # Return empty data, columns, and the stored dataset if no file path is provided or button not clicked
     print('empty data')
-    return [], []
+    return [], [], loaded_dataset if loaded_dataset else []
 
-# # Callback to update DataTable on button click
-# @callback(Output('data_table_dataset', 'data'),
-#     [Input('execute_dataset', 'n_clicks')],
-#     [State('file_path_dataset_viewer', 'value')])
+
+# @callback([Output('data_table_dataset', 'data'),
+#            Output('data_table_dataset', 'columns')],
+#           [Input('execute_dataset', 'n_clicks')],
+#           [State('file_path_dataset_viewer', 'value')])
 # def update_data_table(n_clicks, file_path_dataset_viewer):
 #     if n_clicks > 0 and file_path_dataset_viewer:
 #         try:
-#             # Load data from the specified file path
 #             global load_db_dataset
 #             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
 #             print('Loaded dataset')
-#             return load_db_dataset.to_dict('records') if load_db_dataset is not None else []
+            
+#             # Get updated columns based on the loaded dataset
+#             updated_columns = [{'name': col, 'id': col} for col in load_db_dataset.columns]
+            
+#             # Return data and updated columns
+#             return load_db_dataset.to_dict('records') if load_db_dataset is not None else [], updated_columns
 #         except Exception as e:
 #             print(f"Error loading data: {e}")
     
-#     # Return empty data if no file path is provided or button not clicked
+#     # Return empty data and columns if no file path is provided or button not clicked
 #     print('empty data')
-#     return []
+#     return [], []
+
