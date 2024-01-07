@@ -2,13 +2,13 @@ import pandas as pd
 import dash
 from dash import html, dash_table, dcc, Input, Output, State,callback
 import plotly.graph_objects as go
-from .data_loader import t1
+from .data_loader import run_all
 
 dash.register_page(__name__, path='/dataset', name="Dataset Viewer")
 
 ## Initial empty DataFrame
 #load_db_dataset = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
-load_db_dataset = t1
+load_db_dataset = run_all()
 
 layout = html.Div(children=[
     html.Br(),
