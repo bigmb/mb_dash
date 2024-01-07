@@ -55,8 +55,8 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 @callback(
-    Output("data_table_dataset_new", "options"),
-    Output("data_table_dataset_new", "value"),
+    Output("data_table_new", "options"),
+    Output("data_table_new", "value"),
     [Input('execute_profie_new', 'n_clicks')],
     [State('file_path_new', 'value')]
 )
