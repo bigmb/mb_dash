@@ -48,6 +48,8 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
         return "Please select at least one option or enter a string."
 
     taxcode_list = list(i.strip() for i in taxcodes.split(','))
+ 
+    global t1
 
     t1 = pd.read_csv(file_path)
     t1 = t1.dropna()
@@ -57,3 +59,4 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     t1 = t1[t1[taxcode_column_name] == True]
     
     t1.to_csv(file_save,index=False)
+    return "File saved successfully"
