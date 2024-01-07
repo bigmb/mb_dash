@@ -32,9 +32,10 @@ layout = html.Div(children=[
 load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 @callback(
-    Output("data_table_new_col", "options"),
+    [Output("data_table_new_col", "options"),
     Output("data_table_new_col", "value"),
     Output("data_table_new", "data"),
+    Output("data_table_new", "columns"),]
     [Input('execute_profie_new', 'n_clicks')],
     [State('file_path_new', 'value')]
 )
@@ -45,7 +46,7 @@ def update_dropdown_options(n_clicks, file_path_profiler):
             # Load data from the specified file path
             load_db_profiler = pd.read_csv(file_path_profiler)
             columns = [{'label': col, 'value': col} for col in load_db_profiler.columns]
-            return columns, load_db_profiler.columns[0] , load_db_dataset.to_dict('records') if load_db_dataset is not None else []
+            return columns, load_db_profiler.columns[0] , load_db_dataset.to_dict('records'),columns if load_db_dataset is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
     
