@@ -51,7 +51,7 @@ def update_dropdown_options(n_clicks, file_path_profiler):
             print(f"Error loading data: {e}")
     
     # Return empty options and default value if no file path is provided or button not clicked
-    return [], None, []
+    return [], None, [],[]
 
 @callback(
     Output("histogram_new", "figure"),
