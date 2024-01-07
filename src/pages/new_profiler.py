@@ -60,17 +60,17 @@ def update_histogram(dist_column):
     return px.histogram(data_frame=load_db_profiler, x=dist_column, height=600)
 
 
-# Callback to update DataTable using the stored data
-@callback([Output('data_table_new', 'data'),
-           Output('data_table_new', 'columns'),],
-          [Input('data_table_new', 'data')])
-def update_data_table(loaded_dataset):
-    if loaded_dataset:
-        # Get updated columns based on the loaded dataset
-        updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
+# # Callback to update DataTable using the stored data
+# @callback([Output('data_table_new', 'data'),
+#            Output('data_table_new', 'columns'),],
+#           [Input('data_table_new', 'data')])
+# def update_data_table(loaded_dataset):
+#     if loaded_dataset:
+#         # Get updated columns based on the loaded dataset
+#         updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
         
-        # Return data and updated columns
-        return loaded_dataset, updated_columns
+#         # Return data and updated columns
+#         return loaded_dataset, updated_columns
     
-    # Return empty data and columns if no dataset is stored
-    return [], []
+#     # Return empty data and columns if no dataset is stored
+#     return [], []
