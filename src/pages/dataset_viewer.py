@@ -25,30 +25,69 @@ layout = html.Div(children=[
     ),
 ])
 
-@callback([Output('data_table_dataset', 'data'),
-           Output('data_table_dataset', 'columns'),
-           Output('loaded-dataset-store', 'data')],
+
+
+# Callback to store the loaded dataset in memory
+@callback([Output('loaded-dataset-store', 'data'),
+          Output('file_path_dataset_viewer', 'value')],
           [Input('execute_dataset', 'n_clicks')],
-          [State('file_path_dataset_viewer', 'value'),
-           State('loaded-dataset-store', 'data')])
-def update_data_table(n_clicks, file_path_dataset_viewer, loaded_dataset):
+          [State('file_path_dataset_viewer', 'value')])
+def store_data_in_memory(n_clicks, file_path_dataset_viewer):
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             # Load data from the specified file path
             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
             print('Loaded dataset')
             
-            # Get updated columns based on the loaded dataset
-            updated_columns = [{'name': col, 'id': col} for col in load_db_dataset.columns]
-            
-            # Return data, updated columns, and store the loaded dataset
-            return load_db_dataset.to_dict('records') if load_db_dataset is not None else [], updated_columns, load_db_dataset.to_dict('records')
+            # Store the loaded dataset in memory
+            return load_db_dataset.to_dict('records') if load_db_dataset is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
     
-    # Return empty data, columns, and the stored dataset if no file path is provided or button not clicked
+    # Return empty data if no file path is provided or button not clicked
     print('empty data')
-    return [], [], loaded_dataset if loaded_dataset else []
+    return [],file_path_dataset_viewer
+
+# Callback to update DataTable using the stored data
+@callback([Output('data_table_dataset', 'data'),
+           Output('data_table_dataset', 'columns')],
+          [Input('loaded-dataset-store', 'data')])
+def update_data_table(loaded_dataset):
+    if loaded_dataset:
+        # Get updated columns based on the loaded dataset
+        updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
+        
+        # Return data and updated columns
+        return loaded_dataset, updated_columns
+    
+    # Return empty data and columns if no dataset is stored
+    return [], []
+
+
+# @callback([Output('data_table_dataset', 'data'),
+#            Output('data_table_dataset', 'columns'),
+#            Output('loaded-dataset-store', 'data')],
+#           [Input('execute_dataset', 'n_clicks')],
+#           [State('file_path_dataset_viewer', 'value'),
+#            State('loaded-dataset-store', 'data')])
+# def update_data_table(n_clicks, file_path_dataset_viewer, loaded_dataset):
+#     if n_clicks > 0 and file_path_dataset_viewer:
+#         try:
+#             # Load data from the specified file path
+#             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
+#             print('Loaded dataset')
+            
+#             # Get updated columns based on the loaded dataset
+#             updated_columns = [{'name': col, 'id': col} for col in load_db_dataset.columns]
+            
+#             # Return data, updated columns, and store the loaded dataset
+#             return load_db_dataset.to_dict('records') if load_db_dataset is not None else [], updated_columns, load_db_dataset.to_dict('records')
+#         except Exception as e:
+#             print(f"Error loading data: {e}")
+    
+#     # Return empty data, columns, and the stored dataset if no file path is provided or button not clicked
+#     print('empty data')
+#     return [], [], loaded_dataset if loaded_dataset else []
 
 
 # @callback([Output('data_table_dataset', 'data'),
