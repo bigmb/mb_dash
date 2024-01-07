@@ -42,7 +42,7 @@ def update_dropdown_options(n_clicks, file_path_profiler):
 
 @callback(
     Output("histogram", "figure"),
-    [Input("dist_column", "value")]
+    [Input("dist_column_profiler", "value")]
 )
 def update_histogram(dist_column):
     return px.histogram(data_frame=load_db_profiler, x=dist_column, height=600)
