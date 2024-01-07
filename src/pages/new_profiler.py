@@ -31,11 +31,10 @@ layout = html.Div(children=[
 # Empty DataFrame for global variable
 load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
-@callback(
-    [Output("data_table_new_col", "options"),
+@callback([Output("data_table_new_col", "options"),
     Output("data_table_new_col", "value"),
     Output("data_table_new", "data"),
-    Output("data_table_new", "columns"),]
+    Output("data_table_new", "columns"),],
     [Input('execute_profie_new', 'n_clicks')],
     [State('file_path_new', 'value')]
 )
