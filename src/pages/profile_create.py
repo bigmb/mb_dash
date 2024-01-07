@@ -33,7 +33,7 @@ def update_dropdown_options(n_clicks, file_path_profiler):
             # Load data from the specified file path
             load_db_profiler = pd.read_csv(file_path_profiler)
             columns = [{'label': col, 'value': col} for col in load_db_profiler.columns]
-            return columns, load_db_profiler.columns[0]
+            return columns, load_db_profiler.columns[0]  if columns else None
         except Exception as e:
             print(f"Error loading data: {e}")
     

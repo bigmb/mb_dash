@@ -32,7 +32,7 @@ def update_data_table(n_clicks, file_path_dataset_viewer):
             # Load data from the specified file path
             global load_db_dataset
             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
-            return load_db_dataset.to_dict('records')
+            return load_db_dataset.to_dict('records') if load_db_dataset is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
     
