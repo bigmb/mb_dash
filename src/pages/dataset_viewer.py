@@ -2,7 +2,7 @@ import pandas as pd
 import dash
 from dash import html, dash_table, dcc, Input, Output, State,callback
 import plotly.graph_objects as go
-from data_loader import t1
+from .data_loader import t1
 
 dash.register_page(__name__, path='/dataset', name="Dataset Viewer")
 

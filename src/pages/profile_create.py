@@ -5,7 +5,7 @@ import dash
 from dash import dcc, html, callback
 import plotly.express as px
 from dash.dependencies import Input, Output,State
-from data_loader import t1
+from .data_loader import t1
 
 dash.register_page(__name__, path='/profiler', name="Dataset Profiler")
 
