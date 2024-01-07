@@ -62,7 +62,7 @@ def update_histogram(dist_column):
 
 # Callback to update DataTable using the stored data
 @callback([Output('data_table_new', 'data'),
-           Output('data_table_new', 'columns'),]
+           Output('data_table_new', 'columns'),],
           [Input('data_table_new', 'data')])
 def update_data_table(loaded_dataset):
     if loaded_dataset:
