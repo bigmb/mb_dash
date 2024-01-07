@@ -5,7 +5,6 @@ import dash
 from dash import dcc, html, callback
 import plotly.express as px
 from dash.dependencies import Input, Output,State
-from .data_loader import run_all
 
 dash.register_page(__name__, path='/profiler', name="Dataset Profiler")
 
@@ -19,7 +18,7 @@ layout = html.Div(children=[
 ])
 
 # Empty DataFrame for global variable
-load_db_profiler = run_all()
+load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 @callback(
     Output('dist_column_profiler', 'options'),

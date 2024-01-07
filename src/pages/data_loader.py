@@ -29,13 +29,6 @@ layout = html.Div([
     html.Button('Run Selection', id='run-button'),
     html.Div(id='output-div'),
 ])
-
-def run_all(x):
-    if type(x) is pd.DataFrame:
-        x1 = x.copy()
-        return x1
-    else:
-        return "Please select pandas df"
     
 
 @callback(
@@ -66,5 +59,4 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     
     t1.to_csv(file_save,index=False)
     
-    run_all(t1)
     return "File saved successfully"
