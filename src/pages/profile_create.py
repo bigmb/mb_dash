@@ -13,7 +13,8 @@ layout = html.Div(children=[
     dcc.Input(id='file_path_profiler', type='text', placeholder='Enter the file path'),
     html.Button('Load File', id='execute_profie', n_clicks=0),
     html.P("Select Column:"),
-    dcc.Dropdown(id="dist_column_profiler", value="Age", clearable=False),
+    #dcc.Dropdown(id="dist_column_profiler", value="Column", clearable=False),
+    dcc.Dropdown(id="data_table_dataset", value="Column", clearable=False),
     dcc.Graph(id="histogram")
 ])
 
@@ -21,8 +22,10 @@ layout = html.Div(children=[
 load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 @callback(
-    Output('dist_column_profiler', 'options'),
-    Output('dist_column_profiler', 'value'),
+    #Output('dist_column_profiler', 'options'),
+    #Output('dist_column_profiler', 'value'),
+    Output("data_table_dataset", "options"),
+    Output("data_table_dataset", "value"),
     [Input('execute_profie', 'n_clicks')],
     [State('file_path_profiler', 'value')]
 )
@@ -42,7 +45,8 @@ def update_dropdown_options(n_clicks, file_path_profiler):
 
 @callback(
     Output("histogram", "figure"),
-    [Input("dist_column_profiler", "value")]
+    #[Input("dist_column_profiler", "value")
+    [Input("data_table_dataset", "value")]
 )
 def update_histogram(dist_column):
     return px.histogram(data_frame=load_db_profiler, x=dist_column, height=600)
