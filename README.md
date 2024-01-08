@@ -1,2 +1,2 @@
 # mb_dash
-dash dashboard :D
+dash dashboard for embeddings visualization.
