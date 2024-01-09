@@ -56,7 +56,7 @@ def update_data_table(loaded_dataset):
         # Return data and updated columns
         return loaded_dataset, updated_columns
 
-    ##return [], []
+    return [], []
 
 
 # @callback([Output('data_table_dataset', 'data'),
