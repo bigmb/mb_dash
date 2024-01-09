@@ -25,8 +25,8 @@ layout = html.Div(children=[
 
 
 # Callback to store the loaded dataset in memory
-@callback(Output('store', 'data'),
-          Output('execute_dataset', 'n_clicks'),
+@callback([Output('store', 'data'),
+          Output('execute_dataset', 'n_clicks')],
           [Input('execute_dataset', 'n_clicks')],
           [State('file_path_dataset_viewer', 'value')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer):
