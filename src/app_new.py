@@ -69,10 +69,10 @@ app.layout = html.Div([
     State('file_save', 'value')])
 def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcode_column_name,file_save):
     if n_clicks is None:
-        return "Click the 'Run' button after making selections."
+        return "Click the 'Run' button after making selections.",[],[],[],[],{}
 
     if not any([file_path, dropdown1, taxcodes]):
-        return "Please select at least one option or enter a string."
+        return "Please select at least one option or enter a string.",[],[],[],[],{}
 
     taxcode_list = list(i.strip() for i in taxcodes.split(','))
     
@@ -82,9 +82,9 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     t1 = t1.reset_index(drop=True)
 
     if taxcode_column_name not in t1.columns:
-        return "Please enter a valid taxcode column name",
+        return "Please enter a valid taxcode column name",[],[],[],[],{}
     if emb_column_name not in t1.columns:
-        return "Please enter a valid embedding column name"
+        return "Please enter a valid embedding column name",[],[],[],[],{}
 
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
