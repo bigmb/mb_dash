@@ -50,7 +50,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
           [Input('store', 'data')])
 def update_data_table(data):
     print('updated data table')
-    return data , [{'name': col, 'id': col} for col in data[0].keys()] if data else []
+    return data , [{'name': col, 'id': col} for col in data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
     #     updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
