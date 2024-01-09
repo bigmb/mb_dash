@@ -47,7 +47,8 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
            Input('execute_dataset', 'n_clicks')],)
 def update_data_table(data,n_clicks):
     if n_clicks > 0:
-        print('updated data table')
+        print('updated data table n_click')
+        print(n_clicks)
         new_data = pd.DataFrame(data)
 
         return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
