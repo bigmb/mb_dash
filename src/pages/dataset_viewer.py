@@ -52,6 +52,9 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
            Output('data_table_dataset', 'columns')],
           [Input('store', 'data')])
 def update_data_table(data):
+    if data:
+        print('stored table')
+        return data , [{'name': col, 'id': col} for col in data[0].keys()]
     print('updated data table')
     return data , [{'name': col, 'id': col} for col in data[0].keys()]
     # if loaded_dataset:
