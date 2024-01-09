@@ -4,8 +4,6 @@ import plotly.express as px
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-from sklearn.preprocessing import LabelEncoder
-import umap
 
 
 px.defaults.template = "ggplot2"
@@ -15,7 +13,7 @@ external_css = ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap
 app = Dash(__name__, external_stylesheets=external_css)
 
 
-columns = ['PCA','TSNE','UMAP']
+columns = ['PCA','TSNE']
 
 app.layout = html.Div([
     dcc.Input(id='file_path', type='text', placeholder='Enter the file path'),
@@ -101,10 +99,10 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
         tsne_emb = tsne.fit_transform(list(t1[emb_column_name]))
         temp_res = list(tsne_emb)
         t1['emb_res'] = temp_res
-    if dropdown1 == 'UMAP':
-        umap_emb = umap.UMAP(n_components=2).fit_transform(list(t1[emb_column_name]))
-        temp_res = list(umap_emb)
-        t1['emb_res'] = temp_res
+    # if dropdown1 == 'UMAP':
+    #     umap_emb = umap.UMAP(n_components=2).fit_transform(list(t1[emb_column_name]))
+    #     temp_res = list(umap_emb)
+    #     t1['emb_res'] = temp_res
     
     t1.to_csv(file_save,index=False)
 
