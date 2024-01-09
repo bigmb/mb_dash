@@ -14,7 +14,7 @@ layout = html.Div(children=[
     html.Button('Load File', id='execute_profie', n_clicks=0),
     html.P("Select Column:"),
     #dcc.Dropdown(id="dist_column_profiler", value="Column", clearable=False),
-    dcc.Dropdown(id="data_table_dataset", value="Column", clearable=False),
+    dcc.Dropdown(id="data_table_profile", value="Column", clearable=False),
     dcc.Graph(id="histogram")
 ])
 
@@ -24,8 +24,8 @@ load_db_profiler = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 @callback(
     #Output('dist_column_profiler', 'options'),
     #Output('dist_column_profiler', 'value'),
-    Output("data_table_dataset", "options"),
-    Output("data_table_dataset", "value"),
+    Output("data_table_profile", "options"),
+    Output("data_table_profile", "value"),
     [Input('execute_profie', 'n_clicks')],
     [State('file_path_profiler', 'value')]
 )
