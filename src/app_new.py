@@ -2,6 +2,11 @@ from dash import Dash,html, dash_table, dcc, Input, Output, State,callback
 import dash
 import plotly.express as px
 import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import LabelEncoder
+import umap
+
 
 px.defaults.template = "ggplot2"
 
@@ -32,8 +37,8 @@ app.layout = html.Div([
     html.Br(),
     html.Br(),
     html.Button('Run Selection', id='run-button'),
-    html.Div(id='output-div'),
     html.Br(),
+    html.Div(id='output-div'),
     dash_table.DataTable(
         id='data_table_dataset',
         data=[],  
@@ -44,11 +49,19 @@ app.layout = html.Div([
         style_cell={"background-color": "lightgrey", "border": "solid 1px white", "color": "black", "font-size": "11px", "text-align": "left"},
         style_header={"background-color": "dodgerblue", "font-weight": "bold", "color": "white", "padding": "10px", "font-size": "18px"},
     ),
+    dcc.Dropdown(id="data_table_profile", value="Column", clearable=False),
+    dcc.Graph(id="histogram")
+
 ])
     
 
 @callback(
-    Output('output-div', 'children'),
+    [Output('output-div', 'children'),
+    Output('data_table_dataset', 'data'),
+    Output('data_table_dataset', 'columns'),
+    Output('data_table_profile', 'options'),
+    Output('data_table_profile', 'value'),
+    Output('histogram', 'figure')],
     [Input('run-button', 'n_clicks')],
     [State('file_path', 'value'),
     State('dropdown1', 'value'),
@@ -64,30 +77,38 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
         return "Please select at least one option or enter a string."
 
     taxcode_list = list(i.strip() for i in taxcodes.split(','))
-     
-    global t1
+    
     t1 = pd.read_csv(file_path)
     t1 = t1.dropna()
     t1 = t1.drop_duplicates()
     t1 = t1.reset_index(drop=True)
+
+    if taxcode_column_name not in t1.columns:
+        return "Please enter a valid taxcode column name",
+    if emb_column_name not in t1.columns:
+        return "Please enter a valid embedding column name"
+
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
     
+    if dropdown1 == 'PCA':
+        pca = PCA(n_components=2)
+        pca_emb = pca.fit_transform(list(t1[emb_column_name]))
+        temp_res = list(pca_emb)
+        t1['emb_res'] = temp_res
+    if dropdown1 == 'TSNE':
+        tsne = TSNE(n_components=2)
+        tsne_emb = tsne.fit_transform(list(t1[emb_column_name]))
+        temp_res = list(tsne_emb)
+        t1['emb_res'] = temp_res
+    if dropdown1 == 'UMAP':
+        umap_emb = umap.UMAP(n_components=2).fit_transform(list(t1[emb_column_name]))
+        temp_res = list(umap_emb)
+        t1['emb_res'] = temp_res
+    
     t1.to_csv(file_save,index=False)
-    
-    return {'data1': t1.to_dict('records')}
 
-
-@callback([Output('data_table_dataset', 'data'),
-           Output('data_table_dataset', 'columns')],
-            [Input('output-div', 'children')])
-def update_data_table(data):
-    if data['data1']:
-        new_data = data['data1']
-        return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
-    print('empty data')
-    return [], []
-    
+    return t1.to_dict('records'), [{'name': col, 'id': col} for col in t1.columns],t1.columns,t1.columns[0],px.histogram(data_frame=t1,x=t1.columns, height=600)
 
 
 
