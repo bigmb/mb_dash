@@ -9,7 +9,7 @@ load_db_dataset = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 layout = html.Div(children=[
     html.Br(),
-    dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path',value=[]),
+    dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path'),
     html.Button('Load File', id='execute_dataset', n_clicks=0),
     dash_table.DataTable(
         id='data_table_dataset',
