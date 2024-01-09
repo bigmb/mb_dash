@@ -44,8 +44,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
           [Input('store', 'data'),
-           [Input('execute_dataset', 'n_clicks')]],
-          )
+           Input('execute_dataset', 'n_clicks')],)
 def update_data_table(data,n_clicks):
     if n_clicks > 0:
         print('updated data table')
