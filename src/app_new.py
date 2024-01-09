@@ -80,16 +80,19 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     t1 = t1.dropna()
     t1 = t1.drop_duplicates()
     t1 = t1.reset_index(drop=True)
+    print('length of the file is ; ',len(t1))
 
     if taxcode_column_name not in t1.columns:
         return "Please enter a valid taxcode column name",[],[],[],[],{}
     if emb_column_name not in t1.columns:
         return "Please enter a valid embedding column name",[],[],[],[],{}
 
+    t1 =t1[[taxcode_column_name,emb_column_name,'after_image_url','before_image_url','event_id']]
+
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
     
-    print('length of the file is ; ',len(t1))
+    print('length of the taxcode file is ; ',len(t1))
     print(t1.head())
     print('File loaded successfully. Starting the embedding process.')
 
