@@ -39,7 +39,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
         except Exception as e:
             print(f"Error loading data: {e}")
     # print('empty data')
-    return []
+    return [],0
 
 #Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
