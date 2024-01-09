@@ -29,6 +29,8 @@ layout = html.Div(children=[
         [Input('execute_dataset', 'n_clicks')],
         [State('file_path_dataset_viewer', 'value')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer):
+    if n_clicks > 0 and file_path_dataset_viewer==None:
+        pass
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             load_db_dataset_new = pd.read_csv(file_path_dataset_viewer)
@@ -38,7 +40,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
         except Exception as e:
             print(f"Error loading data: {e}")
     # print('empty data')
-    return []
+
 
 #Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
