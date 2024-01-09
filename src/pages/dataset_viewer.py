@@ -28,19 +28,14 @@ layout = html.Div(children=[
 # Callback to store the loaded dataset in memory
 @callback(Output('store', 'data'),
           [Input('execute_dataset', 'n_clicks')],
-          [State('file_path_dataset_viewer', 'value'),
-          State('store', 'data')])
-def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
+          [State('file_path_dataset_viewer', 'value')])
+def store_data_in_memory(n_clicks, file_path_dataset_viewer):
     if n_clicks > 0 and file_path_dataset_viewer:
-        if data:
-            return data
         try:
-            # Load data from the specified file path
-            load_db_dataset = pd.read_csv(file_path_dataset_viewer)
+            load_db_dataset_new = pd.read_csv(file_path_dataset_viewer)
             print('Loaded dataset')
             
-            # Store the loaded dataset in memory
-            return load_db_dataset.to_dict('records') if load_db_dataset is not None else []
+            return load_db_dataset_new.to_dict('records') if load_db_dataset_new is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
 
@@ -53,10 +48,10 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
           [Input('store', 'data')])
 def update_data_table(data):
     if data:
-        print('stored table')
-        return data , [{'name': col, 'id': col} for col in data[0].keys()]
-    print('updated data table')
-    return data , [{'name': col, 'id': col} for col in data[0].keys()]
+        print('updated data table')
+        new_data = pd.DataFrame(data)
+        return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
+    return [], []
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
     #     updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
