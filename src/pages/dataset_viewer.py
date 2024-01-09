@@ -26,7 +26,7 @@ layout = html.Div(children=[
 
 
 # Callback to store the loaded dataset in memory
-@callback(Output('loaded-dataset-store', 'data'),
+@callback(Output('store', 'data'),
           [Input('execute_dataset', 'n_clicks')],
           [State('file_path_dataset_viewer', 'value')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer):
@@ -47,7 +47,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 # Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
-          [Input('loaded-dataset-store', 'data')])
+          [Input('store', 'data')])
 def update_data_table(data):
     return data , [{'name': col, 'id': col} for col in data[0].keys()] if data else []
     # if loaded_dataset:
