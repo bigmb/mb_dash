@@ -31,6 +31,9 @@ layout = html.Div(children=[
           [State('file_path_dataset_viewer', 'value'),
           State('store', 'data')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
+    if data:
+        print('data exists')
+        return data
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             # Load data from the specified file path
@@ -41,19 +44,17 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
             return load_db_dataset.to_dict('records') if load_db_dataset is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
-    if data and n_clicks != 0:
-        print('data exists')
-        return data
+
     # print('empty data')
     # return []
 
-# Callback to update DataTable using the stored data
-# @callback([Output('data_table_dataset', 'data'),
-#            Output('data_table_dataset', 'columns')],
-#           [Input('store', 'data')])
-# def update_data_table(data):
-#     print('updated data table')
-#     return data , [{'name': col, 'id': col} for col in data[0].keys()]
+#Callback to update DataTable using the stored data
+@callback([Output('data_table_dataset', 'data'),
+           Output('data_table_dataset', 'columns')],
+          [Input('store', 'data')])
+def update_data_table(data):
+    print('updated data table')
+    return data , [{'name': col, 'id': col} for col in data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
     #     updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
