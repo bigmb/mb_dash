@@ -89,6 +89,8 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
     
+    print('File loaded successfully. Starting the embedding process.')
+
     if dropdown1 == 'PCA':
         pca = PCA(n_components=2)
         pca_emb = pca.fit_transform(list(t1[emb_column_name]))
