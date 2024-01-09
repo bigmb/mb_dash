@@ -41,9 +41,8 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
         except Exception as e:
             print(f"Error loading data: {e}")
     
-    # Return empty data if no file path is provided or button not clicked
-    print('empty data')
-    return []
+    # print('empty data')
+    # return []
 
 # Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
@@ -56,9 +55,8 @@ def update_data_table(loaded_dataset):
         
         # Return data and updated columns
         return loaded_dataset, updated_columns
-    
-    # Return empty data and columns if no dataset is stored
-    return [], []
+
+    ##return [], []
 
 
 # @callback([Output('data_table_dataset', 'data'),
