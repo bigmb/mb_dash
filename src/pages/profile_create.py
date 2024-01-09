@@ -49,4 +49,4 @@ layout = html.Div(children=[
     [Input("store", "data")]
 )
 def update_histogram(data):
-    return px.histogram(data_frame=data['data1'],x=data['data1'].columns, height=600)
+    return px.histogram(data_frame=data['data1'],x=pd.DataFrame(data['data1']).columns, height=600)
