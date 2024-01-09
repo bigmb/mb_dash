@@ -14,7 +14,7 @@ layout = html.Div(children=[
     #dcc.Store(id='loaded-dataset-store', storage_type='session'),
     dash_table.DataTable(
         id='data_table_dataset',
-        data=[],  # Use the stored dataset
+        data=[],  
         #data=load_db_dataset.to_dict('records'),
         #columns=[{'name': col, 'id': col} for col in load_db_dataset.columns],
         columns = [],
