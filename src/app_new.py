@@ -89,6 +89,8 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
     t1[taxcode_column_name] = t1[taxcode_column_name].isin(taxcode_list)
     t1 = t1[t1[taxcode_column_name] == True]
     
+    print('length of the file is ; ',len(t1))
+    print(t1.head())
     print('File loaded successfully. Starting the embedding process.')
 
     if dropdown1 == 'PCA':
@@ -101,12 +103,15 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
         tsne_emb = tsne.fit_transform(list(t1[emb_column_name]))
         temp_res = list(tsne_emb)
         t1['emb_res'] = temp_res
+    
+    print('Embedding process completed. Saving the file.')
     # if dropdown1 == 'UMAP':
     #     umap_emb = umap.UMAP(n_components=2).fit_transform(list(t1[emb_column_name]))
     #     temp_res = list(umap_emb)
     #     t1['emb_res'] = temp_res
     
     t1.to_csv(file_save,index=False)
+    print('File saved successfully.')
 
     return t1.to_dict('records'), [{'name': col, 'id': col} for col in t1.columns],t1.columns,t1.columns[0],px.histogram(data_frame=t1,x=t1.columns, height=600)
 
