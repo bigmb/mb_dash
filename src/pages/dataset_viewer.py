@@ -47,7 +47,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 # Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
-          [Input('store', 'data')],
+          #[Input('store', 'data')],
           [State('store', 'data')])
 def update_data_table(data):
     if data:
