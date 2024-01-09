@@ -1,7 +1,7 @@
 from dash import Dash,html, dash_table, dcc, Input, Output, State,callback
 import dash
 import plotly.express as px
-import pandas as pd
+import mt.pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
@@ -76,7 +76,7 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
 
     taxcode_list = list(i.strip() for i in taxcodes.split(','))
     
-    t1 = pd.read_csv(file_path)
+    t1 = pd.dfload(file_path)
     t1 = t1.dropna()
     t1 = t1.drop_duplicates()
     t1 = t1.reset_index(drop=True)
