@@ -9,7 +9,7 @@ load_db_dataset = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 layout = html.Div(children=[
     html.Br(),
-    dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path'),
+    dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path',value=[]),
     html.Button('Load File', id='execute_dataset', n_clicks=0),
     dash_table.DataTable(
         id='data_table_dataset',
@@ -29,14 +29,12 @@ layout = html.Div(children=[
         [Input('execute_dataset', 'n_clicks')],
         [State('file_path_dataset_viewer', 'value')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer):
-    if n_clicks > 0 and file_path_dataset_viewer==None:
-        pass
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             load_db_dataset_new = pd.read_csv(file_path_dataset_viewer)
             print('Loaded dataset')
             
-            return load_db_dataset_new.to_dict('records') if load_db_dataset_new is not None else []
+            return {'data1' :load_db_dataset_new.to_dict('records'),'n_clicks': n_clicks,'file_path':file_path_dataset_viewer} #if load_db_dataset_new is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
     # print('empty data')
@@ -45,23 +43,15 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 #Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
-          [Input('store', 'data'),
-           Input('execute_dataset', 'n_clicks')],)
-def update_data_table(data,n_clicks):
-    if n_clicks > 0:
-        print('updated data table n_click')
-        print(n_clicks)
-        new_data = pd.DataFrame(data)
+          [Input('store', 'data')])
+def update_data_table(data):
+    if data['file_path']:
+        # Get updated columns based on the loaded dataset
+        #updated_columns = [{'name': col, 'id': col} for col in data[0].keys()]
+        #print(data['data1'])
+        return data['data1'], [{'name': col, 'id': col} for col in data['data1'][0].keys()]
 
-        return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
-
-    elif n_clicks == 0:
-        print('updated data table')
-        new_data = pd.DataFrame(data)
-
-        return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
-    return data.to_dict('records'), [{'name': col, 'id': col} for col in data.columns]
-
+    return [], []
         #return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
