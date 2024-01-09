@@ -5,7 +5,7 @@ from dash import html, dash_table, dcc, Input, Output, State,callback
 dash.register_page(__name__, path='/dataset', name="Dataset Viewer")
 
 ## Initial empty DataFrame
-load_db_dataset = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
+#load_db_dataset = pd.DataFrame(columns=['test_A', 'test_B', 'test_C'])
 
 layout = html.Div(children=[
     html.Br(),
