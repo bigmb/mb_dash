@@ -37,7 +37,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
             return load_db_dataset_new.to_dict('records') if load_db_dataset_new is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
-
+    return {}
     # print('empty data')
     # return []
 
@@ -47,7 +47,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
           [Input('store', 'data')])
 def update_data_table(data):
     if data == {}:
-        return [], []
+        return {}, {}
     else:
         print('updated data table')
         new_data = pd.DataFrame(data)
