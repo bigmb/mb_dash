@@ -11,18 +11,17 @@ layout = html.Div(children=[
     html.Br(),
     dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path'),
     html.Button('Load File', id='execute_dataset', n_clicks=0),
-    #dcc.Store(id='loaded-dataset-store', storage_type='session'),
     dash_table.DataTable(
         id='data_table_dataset',
         data=[],  
         #data=load_db_dataset.to_dict('records'),
         #columns=[{'name': col, 'id': col} for col in load_db_dataset.columns],
-        columns = [],
+        columns =[],
         page_size=20,
         style_cell={"background-color": "lightgrey", "border": "solid 1px white", "color": "black", "font-size": "11px", "text-align": "left"},
         style_header={"background-color": "dodgerblue", "font-weight": "bold", "color": "white", "padding": "10px", "font-size": "18px"},
     ),
-])
+    ])
 
 
 # Callback to store the loaded dataset in memory
@@ -47,11 +46,15 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
            Output('data_table_dataset', 'columns')],
           [Input('store', 'data')])
 def update_data_table(data):
-    if data is not None:
+    if data == {}:
+        return [], []
+    else:
         print('updated data table')
         new_data = pd.DataFrame(data)
-        return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
-    return [], []
+
+        return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
+    
+        #return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
     #     updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
