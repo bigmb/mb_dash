@@ -52,7 +52,7 @@ def update_data_table(data):
         #print(data['data1'])
         return data['data1'], [{'name': col, 'id': col} for col in data['data1'][0].keys()]
 
-    return [], []
+    return dash.no_update
         #return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
