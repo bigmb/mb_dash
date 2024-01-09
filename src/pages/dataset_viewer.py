@@ -28,8 +28,12 @@ layout = html.Div(children=[
 # Callback to store the loaded dataset in memory
 @callback(Output('store', 'data'),
           [Input('execute_dataset', 'n_clicks')],
-          [State('file_path_dataset_viewer', 'value')])
-def store_data_in_memory(n_clicks, file_path_dataset_viewer):
+          [State('file_path_dataset_viewer', 'value'),
+          State('store', 'data')])
+def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
+    if data:
+        print('data exists')
+        return data
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             # Load data from the specified file path
@@ -47,15 +51,8 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 # Callback to update DataTable using the stored data
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
-          #[Input('store', 'data')],
-          [State('store', 'data')])
+          [Input('store', 'data')])
 def update_data_table(data):
-    if data:
-        # Get updated columns based on the loaded dataset
-        updated_columns = [{'name': col, 'id': col} for col in data[0].keys()]
-        
-        # Return data and updated columns
-        return data, updated_columns
     print('updated data table')
     return data , [{'name': col, 'id': col} for col in data[0].keys()]
     # if loaded_dataset:
