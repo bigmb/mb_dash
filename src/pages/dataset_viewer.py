@@ -32,6 +32,8 @@ layout = html.Div(children=[
           State('store', 'data')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
     if n_clicks > 0 and file_path_dataset_viewer:
+        if data:
+            return data
         try:
             # Load data from the specified file path
             load_db_dataset = pd.read_csv(file_path_dataset_viewer)
