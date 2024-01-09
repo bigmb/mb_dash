@@ -31,9 +31,6 @@ layout = html.Div(children=[
           [State('file_path_dataset_viewer', 'value'),
           State('store', 'data')])
 def store_data_in_memory(n_clicks, file_path_dataset_viewer,data):
-    if data:
-        print('data exists')
-        return data
     if n_clicks > 0 and file_path_dataset_viewer:
         try:
             # Load data from the specified file path
