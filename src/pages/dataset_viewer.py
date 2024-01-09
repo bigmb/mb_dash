@@ -11,7 +11,7 @@ layout = html.Div(children=[
     html.Br(),
     dcc.Input(id='file_path_dataset_viewer', type='text', placeholder='Enter the file path'),
     html.Button('Load File', id='execute_dataset', n_clicks=0),
-    dcc.Store(id='loaded-dataset-store', storage_type='memory'),
+    dcc.Store(id='loaded-dataset-store', storage_type='session'),
     dash_table.DataTable(
         id='data_table_dataset',
         data=[],  # Use the stored dataset
