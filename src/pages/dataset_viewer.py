@@ -52,12 +52,13 @@ def update_data_table(data,n_clicks):
 
         return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
 
-    else:
+    elif n_clicks == 0:
         print('updated data table')
         new_data = pd.DataFrame(data)
 
         return new_data.to_dict('records'), [{'name': col, 'id': col} for col in new_data.columns]
-    
+    return data.to_dict('records'), [{'name': col, 'id': col} for col in data.columns]
+
         #return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
     # if loaded_dataset:
     #     # Get updated columns based on the loaded dataset
