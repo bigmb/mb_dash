@@ -47,7 +47,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
            Output('data_table_dataset', 'columns')],
           [Input('store', 'data')])
 def update_data_table(data):
-    if data:
+    if data is not None:
         print('updated data table')
         new_data = pd.DataFrame(data)
         return new_data , [{'name': col, 'id': col} for col in new_data[0].keys()]
