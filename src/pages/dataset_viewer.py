@@ -48,15 +48,16 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
 @callback([Output('data_table_dataset', 'data'),
            Output('data_table_dataset', 'columns')],
           [Input('loaded-dataset-store', 'data')])
-def update_data_table(loaded_dataset):
-    if loaded_dataset:
-        # Get updated columns based on the loaded dataset
-        updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
+def update_data_table(data):
+    return data , [{'name': col, 'id': col} for col in data[0].keys()] if data else []
+    # if loaded_dataset:
+    #     # Get updated columns based on the loaded dataset
+    #     updated_columns = [{'name': col, 'id': col} for col in loaded_dataset[0].keys()]
         
-        # Return data and updated columns
-        return loaded_dataset, updated_columns
+    #     # Return data and updated columns
+    #     return loaded_dataset, updated_columns
 
-    return [], []
+    # return [], []
 
 
 # @callback([Output('data_table_dataset', 'data'),
