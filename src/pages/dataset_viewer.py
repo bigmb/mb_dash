@@ -34,7 +34,7 @@ def store_data_in_memory(n_clicks, file_path_dataset_viewer):
             load_db_dataset_new = pd.read_csv(file_path_dataset_viewer)
             print('Loaded dataset')
             
-            return {'data1' :load_db_dataset_new.to_dict('records'),'n_clicks': n_clicks,'file_path':file_path_dataset_viewer} #if load_db_dataset_new is not None else []
+            return {'data1' :load_db_dataset_new.to_dict('records'),'data1_cols': load_db_dataset.columns ,'n_clicks': n_clicks,'file_path':file_path_dataset_viewer} #if load_db_dataset_new is not None else []
         except Exception as e:
             print(f"Error loading data: {e}")
     # print('empty data')
