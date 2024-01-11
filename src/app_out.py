@@ -23,11 +23,11 @@ def load_data(file_path, taxcodes, emb_column_name='embedding', taxcode_column_n
     df = pd.dfload(file_path)
     df = df[df[taxcode_column_name].isin(taxcodes)]
 
-    assert df.columns.contains(emb_column_name), f"Embedding column name {emb_column_name} not found in the dataframe"
-    assert df.columns.contains(taxcode_column_name), f"Taxcode column name {taxcode_column_name} not found in the dataframe"
-    assert df.columns.contains('event_id'), f"Event_id column name not found in the dataframe"
-    assert df.columns.contains('after_image_url'), f"After_image_url column name not found in the dataframe"
-    assert df.columns.contains('before_image_url'), f"Before_image_url column name not found in the dataframe"
+    assert emb_column_name in df.columns, f"Embedding column name {emb_column_name} not found in the dataframe"
+    assert taxcode_column_name in df.columns, f"Taxcode column name {taxcode_column_name} not found in the dataframe"
+    assert 'event_id' in df.columns, f"Event_id column name not found in the dataframe"
+    assert 'after_image_url' in df.columns, f"After_image_url column name not found in the dataframe"
+    assert 'before_image_url' in df.columns, f"Before_image_url column name not found in the dataframe"
 
     df = df[['event_id','after_image_url','before_image_url',emb_column_name, taxcode_column_name]]
     df = df.rename(columns={emb_column_name: "embedding", taxcode_column_name: "taxcode"})
