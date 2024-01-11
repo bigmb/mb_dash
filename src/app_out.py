@@ -152,6 +152,14 @@ def main(args):
     dim_red_file = dim_red(loaded_file, method=method, n_components=n_components,file_save_emb=file_save_emb)
     plot_file = plot(dim_red_file, method=method, n_components=n_components, color=color, file_save_plot=file_save_plot)
 
+    plot_file_graph = html.Div([
+        dcc.Graph(
+        id='scatter-plot',
+        figure=plot_file,
+        config={'staticPlot': False}),
+        html.Div([html.Img(id='selected-image', style={'width': '50%'}),
+        html.Div(id='hover-data-output')])])
+
     cols = dim_red_file.columns.tolist()
 
     grid = dag.AgGrid(
@@ -164,7 +172,7 @@ def main(args):
 
     plot1 = dcc.Graph(id="histogram")
 
-    app.layout = app_layout(grid,dropdown,plot1,plot_file)
+    app.layout = app_layout(grid,dropdown,plot1,plot_file_graph)
 
     # @app.callback(
     #     [Output("data_table_profile", "options"),
@@ -183,6 +191,20 @@ def main(args):
     def update_histogram(value):
         return px.histogram(data_frame=dim_red_file,x=dim_red_file[value], height=600)
     
+    @app.callback([Output('hover-data-output', 'children'),Output('selected-image', 'src')],
+                  [Input('scatter-plot', 'hoverData')])
+
+    def display_hover_data(hover_data):
+        if hover_data is None:
+            return ("Hover over a point to see data")
+
+        # Extract data from hover_data
+        point_index = hover_data['points'][0]['pointIndex']
+        target_value = dim_red_file.iloc[point_index]['event_id']
+        image_url = dim_red_file.iloc[point_index]['after_image_url']
+
+        return f"Hovered over point {target_value}. Image URL: {image_url}",image_url
+
 
     app.run_server(port=port,host=host,debug=debug)
 
