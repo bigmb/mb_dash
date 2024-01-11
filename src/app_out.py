@@ -8,8 +8,6 @@ import argparse
 import dash_ag_grid as dag
 
 
-#app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-
 px.defaults.template = "ggplot2"
 
 external_css = ["https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css", ]
