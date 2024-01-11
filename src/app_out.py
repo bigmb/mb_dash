@@ -92,7 +92,7 @@ def plot(df, method='pca', n_components=2, color='taxcode', file_save_plot=None)
         raise ValueError(f"Method {method} not supported. Please choose between 'pca' and 'tsne'")
     
 
-def app_layout(grid,dropdown,plot1):
+def app_layout(grid,dropdown,plot1,plot):
     layout = html.Div(children=[
     html.Br(),
     html.H1(children='Embedding Visualizer', style={'text-align': 'center'}),
@@ -108,6 +108,7 @@ def app_layout(grid,dropdown,plot1):
     plot1,
     html.Div(id='embeddings plot'),
     html.Br(),
+    plot,
     #html.Graph(id='plot'),
     ])
 
@@ -149,6 +150,7 @@ def main(args):
 
     loaded_file = load_data(file_path, taxcodes, emb_column_name,taxcode_column_name,file_save)
     dim_red_file = dim_red(loaded_file, method=method, n_components=n_components,file_save_emb=file_save_emb)
+    plot_file = plot(dim_red_file, method=method, n_components=n_components, color=color, file_save_plot=file_save_plot)
 
     cols = dim_red_file.columns.tolist()
 
@@ -162,7 +164,7 @@ def main(args):
 
     plot1 = dcc.Graph(id="histogram")
 
-    app.layout = app_layout(grid,dropdown,plot1)
+    app.layout = app_layout(grid,dropdown,plot1,plot_file)
 
     # @app.callback(
     #     [Output("data_table_profile", "options"),
@@ -180,6 +182,7 @@ def main(args):
         [Input("dropdown", "value")],)
     def update_histogram(value):
         return px.histogram(data_frame=dim_red_file,x=dim_red_file[value], height=600)
+    
 
     app.run_server(port=port,host=host,debug=debug)
 
