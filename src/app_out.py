@@ -161,16 +161,16 @@ def main(args):
 
     app.layout = app_layout(grid,dropdown)
 
-    @app.callback(
-        [Output("data_table_profile", "options"),
-        Output("data_table_profile", "value")]
-        [Input("load_data", "n_clicks")],
-        prevent_initial_call=True,
-    )
-    def update_data_table_profile(n_clicks):
-        if n_clicks == 0:
+    # @app.callback(
+    #     [Output("data_table_profile", "options"),
+    #     Output("data_table_profile", "value")]
+    #     [Input("load_data", "n_clicks")],
+    #     prevent_initial_call=True,
+    # )
+    # def update_data_table_profile(n_clicks):
+    #     if n_clicks == 0:
 
-            return [{"label": col, "value": col} for col in columns]
+    #         return [{"label": col, "value": col} for col in columns]
     
     @app.callback(
         Output("histogram", "figure"),
