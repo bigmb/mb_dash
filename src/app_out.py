@@ -211,6 +211,7 @@ if __name__ == '__main__':
     parcer.add_argument('--emb_column_name', type=str, default='embeddings')
     parcer.add_argument('--taxcode_column_name', type=str, default='taxcode')
     parcer.add_argument('--file_save', type=str, default=None)
+    parcer.add_argument('--file_save_emb', type=str, default=None)
     parcer.add_argument('--method', type=str, default='pca')
     parcer.add_argument('--n_components', type=int, default=2)
     parcer.add_argument('--color', type=str, default='taxcode')
