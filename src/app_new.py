@@ -76,6 +76,9 @@ def run_function(n_clicks, file_path, dropdown1, taxcodes,emb_column_name,taxcod
 
     taxcode_list = list(i.strip() for i in taxcodes.split(','))
     
+    print('file path is : ',file_path)
+    print('taxcode list is : ',taxcode_list)
+    print('embedding column name is : ',emb_column_name)
     t1 = pd.dfload(file_path)
     t1 = t1.dropna()
     t1 = t1.drop_duplicates()
