@@ -92,7 +92,7 @@ def plot(df, method='pca', n_components=2, color='taxcode', file_save_plot=None)
         raise ValueError(f"Method {method} not supported. Please choose between 'pca' and 'tsne'")
     
 
-def app_layout(grid,dropdown):
+def app_layout(grid,dropdown,plot1):
     layout = html.Div(children=[
     html.Br(),
     html.H1(children='Embedding Visualizer', style={'text-align': 'center'}),
@@ -100,11 +100,12 @@ def app_layout(grid,dropdown):
     #html.Button('Load Data', id='load_data', n_clicks=0, style={'margin-left': '10px'}),
     html.P("Select Column:"),
     #dcc.Dropdown(id="data_table_profile", value="Column", clearable=False),
-    dropdown,
-    html.Br(),
-    #dcc.Graph(id="histogram"),
     grid,
     html.Br(),
+    #dcc.Graph(id="histogram"),
+    dropdown,
+    html.Br(),
+    plot1,
     html.Div(id='embeddings plot'),
     html.Br(),
     #html.Graph(id='plot'),
@@ -159,7 +160,9 @@ def main(args):
 
     dropdown = dcc.Dropdown(cols, id='dropdown', clearable=False, value=cols[0])
 
-    app.layout = app_layout(grid,dropdown)
+    plot1 = dcc.Graph(id="histogram")
+
+    app.layout = app_layout(grid,dropdown,plot1)
 
     # @app.callback(
     #     [Output("data_table_profile", "options"),
