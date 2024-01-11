@@ -4,6 +4,11 @@ import plotly.express as px
 import mt.pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+import argparse
+import dash_ag_grid as dag
+
+
+#app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 px.defaults.template = "ggplot2"
 
@@ -89,5 +94,127 @@ def plot(df, method='pca', n_components=2, color='taxcode', file_save_plot=None)
         raise ValueError(f"Method {method} not supported. Please choose between 'pca' and 'tsne'")
     
 
+def app_layout(grid,dropdown):
+    layout = html.Div(children=[
+    html.Br(),
+    html.H1(children='Embedding Visualizer', style={'text-align': 'center'}),
+    html.Br(),
+    #html.Button('Load Data', id='load_data', n_clicks=0, style={'margin-left': '10px'}),
+    html.P("Select Column:"),
+    #dcc.Dropdown(id="data_table_profile", value="Column", clearable=False),
+    dropdown,
+    html.Br(),
+    #dcc.Graph(id="histogram"),
+    grid,
+    html.Br(),
+    html.Div(id='embeddings plot'),
+    html.Br(),
+    #html.Graph(id='plot'),
+    ])
 
+    return layout
+
+# def app_callbacks(app):
+#     @app.callback(
+#         [Output("data_table_profile", "options"),
+#         Output("data_table_profile", "value")]
+#         [Input("load_data", "n_clicks")],
+#         prevent_initial_call=True,
+#     )
+#     def update_data_table_profile(n_clicks):
+#         if n_clicks == 0:
+
+#             return [{"label": col, "value": col} for col in columns]
+
+#     @app.callback(
+#         Output("histogram", "figure"),
+#         [Input("dropdown", "value")],)
+#     def update_histogram(column):
+#         return px.histogram(data_frame=dim_red_file['data1'],x=dim_red_file['data1_cols'], height=600)
+
+
+def main(args):
+    file_path = args.file_path
+    taxcodes = args.taxcodes
+    emb_column_name = args.emb_column_name
+    taxcode_column_name = args.taxcode_column_name
+    file_save = args.file_save
+    method = args.method
+    n_components = args.n_components
+    color = args.color
+    file_save_plot = args.file_save_plot
+    file_save_emb = args.file_save_emb
+    port = args.port
+    host = args.host
+    debug = args.debug
+
+    loaded_file = load_data(file_path, taxcodes, emb_column_name,taxcode_column_name,file_save)
+    dim_red_file = dim_red(loaded_file, method=method, n_components=n_components,file_save_emb=file_save_emb)
+
+    cols = dim_red_file.columns.tolist()
+
+    grid = dag.AgGrid(
+        id='grid',
+        columnDefs= [{"headerName": x, "field": x, } for x in dim_red_file.columns],
+        rowData=dim_red_file.to_dict('records'),
+        dashGridOptions={'pagination':True},)
+
+    dropdown = dcc.Dropdown(cols, id='dropdown', clearable=False, value=cols[0])
+
+    app.layout = app_layout(grid,dropdown)
+
+    @app.callback(
+        [Output("data_table_profile", "options"),
+        Output("data_table_profile", "value")]
+        [Input("load_data", "n_clicks")],
+        prevent_initial_call=True,
+    )
+    def update_data_table_profile(n_clicks):
+        if n_clicks == 0:
+
+            return [{"label": col, "value": col} for col in columns]
     
+    @app.callback(
+        Output("histogram", "figure"),
+        [Input("dropdown", "value")],)
+    def update_histogram(value):
+        return px.histogram(data_frame=dim_red_file,x=dim_red_file[value], height=600)
+
+    app.run_server(port=port,host=host,debug=debug)
+
+
+
+
+@app.callback(Output("data_table_profile", "options"), 
+              [Input("load_data", "n_clicks")])
+def update_data_table_profile(n_clicks):
+    if n_clicks > 0:
+
+        return [{"label": col, "value": col} for col in columns]
+    else:
+        return [{"label": col, "value": col} for col in columns]
+
+@callback(
+    Output("histogram", "figure"),
+    [Input("store", "data")]
+)
+def update_histogram(data):
+    return px.histogram(data_frame=data['data1'],x=data['data1_cols'], height=600)
+    
+
+
+if __name__ == '__main__':
+    parcer = argparse.ArgumentParser()
+    parcer.add_argument('--port', type=int, default=8935)
+    parcer.add_argument('--host', type=str, default='0.0.0.0')
+    parcer.add_argument('--debug', type=bool, default=True)
+    parcer.add_argument('--file_path', type=str, default='/home/malav/dash_test_1000.csv')
+    parcer.add_argument('--file_save', type=str, default=None)
+    parcer.add_argument('--method', type=str, default='pca')
+    parcer.add_argument('--n_components', type=int, default=2)
+    parcer.add_argument('--color', type=str, default='taxcode')
+    parcer.add_argument('--file_save_plot', type=str, default=None)
+    args = parcer.parse_args()
+
+    main(args)
+
