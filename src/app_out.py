@@ -183,21 +183,21 @@ def main(args):
 
 
 
-@app.callback(Output("data_table_profile", "options"), 
-              [Input("load_data", "n_clicks")])
-def update_data_table_profile(n_clicks):
-    if n_clicks > 0:
+# @app.callback(Output("data_table_profile", "options"), 
+#               [Input("load_data", "n_clicks")])
+# def update_data_table_profile(n_clicks):
+#     if n_clicks > 0:
 
-        return [{"label": col, "value": col} for col in columns]
-    else:
-        return [{"label": col, "value": col} for col in columns]
+#         return [{"label": col, "value": col} for col in columns]
+#     else:
+#         return [{"label": col, "value": col} for col in columns]
 
-@callback(
-    Output("histogram", "figure"),
-    [Input("store", "data")]
-)
-def update_histogram(data):
-    return px.histogram(data_frame=data['data1'],x=data['data1_cols'], height=600)
+# @callback(
+#     Output("histogram", "figure"),
+#     [Input("store", "data")]
+# )
+# def update_histogram(data):
+#     return px.histogram(data_frame=data['data1'],x=data['data1_cols'], height=600)
     
 
 
